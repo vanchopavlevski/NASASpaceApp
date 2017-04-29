@@ -1,0 +1,34 @@
+﻿@model SyncFood.Models.KitchenModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Kitchen</h2>
+@{
+    if (Model.ProductList != null)
+    {
+        foreach (var item in Model.ProductList)
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <p>@item.Name</p>
+                </div>
+                <div class="col-md-2">
+                    <input type="hidden" name="Id" value=@item.Id>
+                    <p><a class="btn btn-default" href="@Url.Action("Recycle", "Kitchen",new {userKitchenId=item.Id })">Recycle &raquo;</a></p>
+                    <p><a class="btn btn-default" href="@Url.Action("Recycle", "Kitchen",new {userKitchenId=item.Id })">Share Food&raquo;</a></p>
+                </div>
+            </div>
+        }
+    }
+}
+
+<div class="container body-content">
+    <hr />
+    <footer>
+        <p>Your optimal callorie intake is @Model.OptimalCalloriesPerDay kcal</p>
+        <p>In your kitchen there are @Model.TotalCallories kcal</p>
+    </footer>
+</div>
+
+

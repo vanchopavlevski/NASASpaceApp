@@ -1,0 +1,114 @@
+﻿@model SyncFood.Models.TopUserInfo
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Personal Info</h2>
+        <p>
+            @{ 
+                if (Model != null)
+                {
+                    @Model.Name
+                    <br/>
+                    <text>At </text>@Model.Age<text> years of age</text>
+                    <br/>
+                    <text>Having Height: </text>@Model.Height <text>cm and Weight: </text>@Model.Weight <text>kg</text>
+                    <br/>
+                    <br/>
+                    <text>Your optimal callorie intake should be: </text> @Model.OptimalCalloriesPerDay <text>callories per day.</text>
+                    String.Format("Your optimal callorie intake should be: {0} callories per day.", Model.OptimalCalloriesPerDay);
+                }
+                else
+                {
+                    <text>We don't have enough data</text>
+                }
+            }
+
+        </p>
+        <p><a class="btn btn-default"  href="@Url.Action("Index","EditUser")">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Analyze Food</h2>
+        @if (Model != null)
+        {
+            if (Model.ImagePath != null && Model.ImagePath.Length != 0)
+            {
+                <div class="display-foto">
+                    <img src="@Url.Content(Model.ImagePath)" alt="IMAGE" style="width:100px; height:100px;" />
+                </div>
+            }
+        }
+        @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div>
+                @Html.TextBox("file", "", new { type = "file" }) <br />
+
+                <p><input type="submit" value="Upload" class="btn btn-default" /></p>
+
+                @ViewBag.Message
+
+            </div>
+        }
+
+        <h2>Recipe Recommendation</h2>
+        <p>
+            @{
+                if (Model != null)
+                {
+                    if (Model.lstRecipes != null)
+                    {
+                        foreach (var recipe in Model.lstRecipes)
+                        {
+                            <h4>@recipe.RecipeName</h4>
+                            <p>@recipe.RecipeDescription</p>
+                        }
+                    }
+                }
+            }
+            </p>
+    </div>
+    
+    <div class="col-md-4">
+        @if (Model != null && Model.Product != null)
+        {
+            <h2>@Model.Product.Name</h2>
+            <p>@Model.Product.ProductInfo</p>
+            <p>Calories: @Model.Product.Callories kcal</p>
+            <p>Seasonal: @Model.Product.Season</p>
+            <p>Shelf Life: @Model.Product.ShelfLife</p>
+            <p>Condition: @Model.Product.Condition</p>
+            <p>Carbon Foot Print: @Model.Product.CarbonFootPrint</p>
+            <p>Known Allergens: @Model.Product.Allergens</p>
+            <p>Hazards: @Model.Product.Hazards</p>
+        }
+        else
+        {
+            <h2>Product Description</h2>
+        }
+        
+        <p><a class="btn btn-default" href="@Url.Action("AddToKitchen","Home")">Add To Kitchen &raquo;</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("Index","Kitchen")">View Kitchen &raquo;</a></p>
+
+        <p><a class="btn btn-default" href="@Url.Action("TrainKitchen","Home")">Test &raquo;</a></p>
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+        var picture = document.getElementById("pic1");
+        if (picture != null) {
+            picture.src = "http://localhost/Images/Product.jpg";
+            alert("Najdov");
+        }
+        alert('Test');
+    }
+</script>
